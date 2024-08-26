@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broker Aggregator and Validator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #ff00ff;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Broker Aggregator Dashboard</h1>
+
+        <div class="section" id="ironbeam">
+            <h2>Ironbeam Account Balance</h2>
+            <div class="loading">Loading...</div>
+            <table id="ironbeam-balance" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="section" id="oanda">
+            <h2>Oanda Account Info</h2>
+            <div class="loading">Loading...</div>
+            <table id="oanda-account" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="section" id="alpaca">
+            <h2>Alpaca Account Info</h2>
+            <div class="loading">Loading...</div>
+            <table id="alpaca-account" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>Cash</th>
+                        <th>Portfolio Value</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function fetchIronbeamBalance() {
+            const response = await fetch('/ironbeam/balance');
+            const data = await response.json();
+            const table = document.getElementById('ironbeam-balance');
+            const loading = document.querySelector('#ironbeam .loading');
+            loading.style.display = 'none';
+            table.style.display = 'table';
+
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = `
+                <tr>
+                    <td>${data.account_id}</td>
+                    <td>${data.balance}</td>
+                </tr>
+            `;
+        }
+
+        async function fetchOandaAccount() {
+            const response = await fetch('/oanda/account');
+            const data = await response.json();
+            const table = document.getElementById('oanda-account');
+            const loading = document.querySelector('#oanda .loading');
+            loading.style.display = 'none';
+            table.style.display = 'table';
+
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = `
+                <tr>
+                    <td>${data.account_id}</td>
+                    <td>${data.balance}</td>
+                </tr>
+            `;
+        }
+
+        async function fetchAlpacaAccount() {
+            const response = await fetch('/alpaca/account');
+            const data = await response.json();
+            const table = document.getElementById('alpaca-account');
+            const loading = document.querySelector('#alpaca .loading');
+            loading.style.display = 'none';
+            table.style.display = 'table';
+
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = `
+                <tr>
+                    <td>${data.id}</td>
+                    <td>${data.cash}</td>
+                    <td>${data.portfolio_value}</td>
+                </tr>
+            `;
+        }
+
+        // Call the functions to fetch data when the page loads
+        fetchIronbeamBalance();
+        fetchOandaAccount();
+        fetchAlpacaAccount();
+    </script>
+</body>
+</html>
