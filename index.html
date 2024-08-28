@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broker Aggregator and Validator</title>
+    <title>Broker Aggregator Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,9 +18,17 @@
         }
         h1 {
             color: #ff00ff;
+            text-align: center;
         }
         .section {
             margin-bottom: 30px;
+            background-color: #2b2b2b;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #ff00ff;
+            margin-bottom: 10px;
         }
         table {
             width: 100%;
@@ -28,8 +36,8 @@
             margin-top: 10px;
         }
         th, td {
-            border: 1px solid #333;
-            padding: 8px;
+            border: 1px solid #444;
+            padding: 10px;
             text-align: left;
         }
         th {
@@ -56,7 +64,9 @@
                         <th>Balance</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <!-- Data will be populated here by JavaScript -->
+                </tbody>
             </table>
         </div>
 
@@ -70,7 +80,9 @@
                         <th>Balance</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <!-- Data will be populated here by JavaScript -->
+                </tbody>
             </table>
         </div>
 
@@ -85,15 +97,33 @@
                         <th>Portfolio Value</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <!-- Data will be populated here by JavaScript -->
+                </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        async function fetchIronbeamBalance() {
-            const response = await fetch('/ironbeam/balance');
-            const data = await response.json();
+        // Mock data to simulate the real-time data from APIs
+        const ironbeamData = {
+            account_id: "12345",
+            balance: "$10,000"
+        };
+
+        const oandaData = {
+            account_id: "54321",
+            balance: "$15,000"
+        };
+
+        const alpacaData = {
+            account_id: "67890",
+            cash: "$5,000",
+            portfolio_value: "$50,000"
+        };
+
+        // Simulate loading data for Ironbeam
+        function loadIronbeamData() {
             const table = document.getElementById('ironbeam-balance');
             const loading = document.querySelector('#ironbeam .loading');
             loading.style.display = 'none';
@@ -102,15 +132,14 @@
             const tbody = table.querySelector('tbody');
             tbody.innerHTML = `
                 <tr>
-                    <td>${data.account_id}</td>
-                    <td>${data.balance}</td>
+                    <td>${ironbeamData.account_id}</td>
+                    <td>${ironbeamData.balance}</td>
                 </tr>
             `;
         }
 
-        async function fetchOandaAccount() {
-            const response = await fetch('/oanda/account');
-            const data = await response.json();
+        // Simulate loading data for Oanda
+        function loadOandaData() {
             const table = document.getElementById('oanda-account');
             const loading = document.querySelector('#oanda .loading');
             loading.style.display = 'none';
@@ -119,15 +148,14 @@
             const tbody = table.querySelector('tbody');
             tbody.innerHTML = `
                 <tr>
-                    <td>${data.account_id}</td>
-                    <td>${data.balance}</td>
+                    <td>${oandaData.account_id}</td>
+                    <td>${oandaData.balance}</td>
                 </tr>
             `;
         }
 
-        async function fetchAlpacaAccount() {
-            const response = await fetch('/alpaca/account');
-            const data = await response.json();
+        // Simulate loading data for Alpaca
+        function loadAlpacaData() {
             const table = document.getElementById('alpaca-account');
             const loading = document.querySelector('#alpaca .loading');
             loading.style.display = 'none';
@@ -136,17 +164,17 @@
             const tbody = table.querySelector('tbody');
             tbody.innerHTML = `
                 <tr>
-                    <td>${data.id}</td>
-                    <td>${data.cash}</td>
-                    <td>${data.portfolio_value}</td>
+                    <td>${alpacaData.account_id}</td>
+                    <td>${alpacaData.cash}</td>
+                    <td>${alpacaData.portfolio_value}</td>
                 </tr>
             `;
         }
 
-        // Call the functions to fetch data when the page loads
-        fetchIronbeamBalance();
-        fetchOandaAccount();
-        fetchAlpacaAccount();
+        // Simulate data loading
+        setTimeout(loadIronbeamData, 1000);  // Simulate 1-second delay
+        setTimeout(loadOandaData, 1500);     // Simulate 1.5-second delay
+        setTimeout(loadAlpacaData, 2000);    // Simulate 2-second delay
     </script>
 </body>
 </html>
