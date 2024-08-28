@@ -1,35 +1,102 @@
-<header>
-    <h1>Ultimate Smart Panel</h1>
-    <div id="connectionStatus">Disconnected</div>
-    <select id="brokerSelect">
-        <option value="">Select Broker</option>
-        <option value="ironbeam">IronBeam</option>
-        <option value="oanda">Oanda</option>
-        <option value="alpaca">Alpaca</option>
-    </select>
-    <button id="connectBtn">Connect</button>
-    <button id="toggleBrokerInfo">Toggle Broker Info</button>
-    <button id="themeToggle" class="theme-toggle">🌙</button>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Smart Panel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="smartPanel" class="panel">
+        <header>
+            <h1>Ultimate Smart Panel</h1>
+            <div id="connectionStatus">Disconnected</div>
+            <select id="brokerSelect">
+                <option value="ironbeam">IronBeam</option>
+                <option value="oanda">Oanda</option>
+                <option value="alpaca">Alpaca</option>
+            </select>
+            <button id="connectBtn">Connect</button>
+            <button id="toggleBrokerInfo">Toggle Broker Info</button>
+            <button id="themeToggle" class="theme-toggle">🌙</button>
+        </header>
 
-<!-- Add this section for market data display -->
-<section id="marketDataDisplay">
-    <h2>Aggregated Market Data</h2>
-    <div id="marketDataContent"></div>
-</section>
+        <section id="marketData">
+            <h2>Aggregated Market Data</h2>
+            <div class="tab-container">
+                <button class="tab active" data-market="futures">Futures</button>
+                <button class="tab" data-market="forex">Forex</button>
+                <button class="tab" data-market="crypto">Crypto</button>
+            </div>
+            <div id="marketContent"></div>
+        </section>
 
-<!-- Modify the AI Trading section -->
-<button id="aiTradingToggle" class="ai-toggle">AI Trading</button>
-<div id="aiTradingPopup" class="hidden">
-    <textarea id="textToTrade" placeholder="Enter trading instructions..."></textarea>
-    <button id="executeAiTrade">Execute AI Trade</button>
-</div>
+        <section id="smartTradeManager">
+            <h2>Smart Trade Manager</h2>
+            <div class="trade-inputs">
+                <input type="text" id="symbol" placeholder="Symbol" list="symbolList">
+                <datalist id="symbolList"></datalist>
+                <select id="orderType">
+                    <option value="market">Market</option>
+                    <option value="limit">Limit</option>
+                    <option value="stop">Stop</option>
+                </select>
+                <select id="direction">
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                </select>
+                <input type="number" id="amount" placeholder="Amount">
+                <input type="number" id="entryPrice" placeholder="Entry Price">
+                <input type="number" id="takeProfit" placeholder="Take Profit">
+                <input type="number" id="stopLoss" placeholder="Stop Loss">
+                <input type="number" id="riskReward" placeholder="Risk:Reward">
+                <input type="number" id="riskPercentage" placeholder="Risk %">
+            </div>
+            <div class="smart-keys">
+                <button class="smart-key" data-action="buy">Buy</button>
+                <button class="smart-key" data-action="sell">Sell</button>
+                <button class="smart-key" data-action="market">Market</button>
+                <button class="smart-key" data-action="limit">Limit</button>
+                <button class="smart-key" data-action="stop">Stop</button>
+                <button class="smart-key" data-action="oco">OCO</button>
+                <button class="smart-key" data-action="risk1">Risk 1%</button>
+                <button class="smart-key" data-action="risk2">Risk 2%</button>
+                <button class="smart-key" data-action="risk3">Risk 3%</button>
+                <button class="smart-key" data-action="sl">SL</button>
+                <button class="smart-key" data-action="tp">TP</button>
+                <button class="smart-key" data-action="breakeven">Break Even</button>
+                <button class="smart-key" data-action="pyramid">Pyramid</button>
+                <button class="smart-key" data-action="scalein">Scale In</button>
+                <button class="smart-key" data-action="instant">Instant Trade</button>
+                <button id="smartSettings" class="smart-key double-width">Smart Settings</button>
+            </div>
+            <button id="placeTrade" class="primary-btn">Place Trade</button>
+        </section>
 
-<!-- Update the auto trade toggle -->
-<div class="auto-trade-toggle">
-    <span>Hybrid AI Auto Trade</span>
-    <label class="switch">
-        <input type="checkbox" id="autoTradeCheck">
-        <span class="slider round"></span>
-    </label>
-</div>
+        <button id="aiTradingToggle" class="ai-toggle">AI Trading</button>
+        <div id="aiTradingPopup" class="hidden">
+            <h2>AI Trading</h2>
+            <textarea id="textToTrade" placeholder="Enter trading instructions..."></textarea>
+            <button id="executeAiTrade">Execute AI Trade</button>
+        </div>
+
+        <section id="orderHistory">
+            <h2>Order History</h2>
+            <div id="orderHistoryContent"></div>
+        </section>
+
+        <footer>
+            <div id="autoTradeToggle" class="toggle">
+                <span>Hybrid AI Auto Trade</span>
+                <label class="switch">
+                    <input type="checkbox" id="autoTradeCheck">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <p>© 2024 Ultimate Smart Panel</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
