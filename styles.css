@@ -1,0 +1,171 @@
+:root {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #6200ee;
+  --secondary-color: #03dac6;
+  --error-color: #cf6679;
+  --success-color: #4CAF50;
+  --surface-color: #1e1e1e;
+  --neon-glow: 0 0 10px var(--secondary-color);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+body.light-theme {
+  --bg-color: #f5f5f5;
+  --text-color: #121212;
+  --primary-color: #3700b3;
+  --secondary-color: #018786;
+  --surface-color: #ffffff;
+  --neon-glow: none;
+}
+
+.panel {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--surface-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+h1, h2 {
+  color: var(--secondary-color);
+  text-shadow: var(--neon-glow);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+  box-shadow: var(--neon-glow);
+}
+
+input, select, textarea {
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--primary-color);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.trade-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.smart-keys {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.smart-key {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.smart-key[data-action="buy"] { background-color: var(--success-color); }
+.smart-key[data-action="sell"] { background-color: var(--error-color); }
+
+#marketContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+#marketContent div {
+  background-color: var(--surface-color);
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#aiProcessing {
+  margin-top: 10px;
+  font-style: italic;
+  color: var(--secondary-color);
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .trade-inputs, .smart-keys {
+    grid-template-columns: 1fr;
+  }
+}

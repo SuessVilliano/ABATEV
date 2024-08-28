@@ -3,178 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broker Aggregator Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            color: #ff00ff;
-            text-align: center;
-        }
-        .section {
-            margin-bottom: 30px;
-            background-color: #2b2b2b;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        h2 {
-            color: #ff00ff;
-            margin-bottom: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            border: 1px solid #444;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #333;
-        }
-        .loading {
-            text-align: center;
-            padding: 20px;
-            font-size: 18px;
-        }
-    </style>
+    <title>Ultimate Smart Panel</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Broker Aggregator Dashboard</h1>
+    <div id="smartPanel" class="panel">
+        <header>
+            <h1>Ultimate Smart Panel</h1>
+            <div id="connectionStatus">Disconnected</div>
+            <button id="toggleBrokerInfo">Toggle Broker Info</button>
+            <button id="themeToggle" class="theme-toggle">🌙</button>
+        </header>
 
-        <div class="section" id="ironbeam">
-            <h2>Ironbeam Account Balance</h2>
-            <div class="loading">Loading...</div>
-            <table id="ironbeam-balance" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Account ID</th>
-                        <th>Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be populated here by JavaScript -->
-                </tbody>
-            </table>
-        </div>
+        <section id="brokerInfo" class="hidden">
+            <select id="brokerSelect">
+                <option value="ironbeam">IronBeam</option>
+                <option value="oanda">Oanda</option>
+                <option value="alpaca">Alpaca</option>
+            </select>
+            <input type="password" id="apiKeyInput" placeholder="Enter API Key">
+            <button id="connectBtn">Connect</button>
+        </section>
 
-        <div class="section" id="oanda">
-            <h2>Oanda Account Info</h2>
-            <div class="loading">Loading...</div>
-            <table id="oanda-account" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Account ID</th>
-                        <th>Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be populated here by JavaScript -->
-                </tbody>
-            </table>
-        </div>
+        <section id="marketData">
+            <h2>Aggregated Market Data</h2>
+            <div class="tab-container">
+                <button class="tab active" data-market="futures">Futures</button>
+                <button class="tab" data-market="forex">Forex</button>
+                <button class="tab" data-market="crypto">Crypto</button>
+            </div>
+            <div id="marketContent"></div>
+        </section>
 
-        <div class="section" id="alpaca">
-            <h2>Alpaca Account Info</h2>
-            <div class="loading">Loading...</div>
-            <table id="alpaca-account" style="display: none;">
-                <thead>
-                    <tr>
-                        <th>Account ID</th>
-                        <th>Cash</th>
-                        <th>Portfolio Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be populated here by JavaScript -->
-                </tbody>
-            </table>
-        </div>
+        <section id="smartTradeManager">
+            <h2>Smart Trade Manager</h2>
+            <div class="trade-inputs">
+                <input type="text" id="symbol" placeholder="Symbol" list="symbolList">
+                <datalist id="symbolList"></datalist>
+                <select id="orderType">
+                    <option value="market">Market</option>
+                    <option value="limit">Limit</option>
+                    <option value="stop">Stop</option>
+                </select>
+                <select id="direction">
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                </select>
+                <input type="number" id="amount" placeholder="Amount">
+                <input type="number" id="entryPrice" placeholder="Entry Price">
+                <input type="number" id="takeProfit" placeholder="Take Profit">
+                <input type="number" id="stopLoss" placeholder="Stop Loss">
+                <input type="number" id="riskReward" placeholder="Risk:Reward">
+                <input type="number" id="riskPercentage" placeholder="Risk %">
+            </div>
+            <div class="smart-keys">
+                <button class="smart-key" data-action="buy">Buy</button>
+                <button class="smart-key" data-action="sell">Sell</button>
+                <button class="smart-key" data-action="market">Market</button>
+                <button class="smart-key" data-action="limit">Limit</button>
+                <button class="smart-key" data-action="stop">Stop</button>
+                <button class="smart-key" data-action="oco">OCO</button>
+                <button class="smart-key" data-action="risk1">Risk 1%</button>
+                <button class="smart-key" data-action="risk2">Risk 2%</button>
+                <button class="smart-key" data-action="risk3">Risk 3%</button>
+                <button class="smart-key" data-action="sl">SL</button>
+                <button class="smart-key" data-action="tp">TP</button>
+                <button class="smart-key" data-action="breakeven">Break Even</button>
+                <button class="smart-key" data-action="pyramid">Pyramid</button>
+                <button class="smart-key" data-action="scalein">Scale In</button>
+                <button class="smart-key" data-action="instant">Instant Trade</button>
+                <button id="smartSettings" class="smart-key double-width">Smart Settings</button>
+            </div>
+            <button id="placeTrade" class="primary-btn">Place Trade</button>
+        </section>
+
+        <section id="aiTrading">
+            <h2>AI Trading</h2>
+            <textarea id="textToTrade" placeholder="Enter trading instructions..."></textarea>
+            <button id="executeAiTrade">Execute AI Trade</button>
+            <div id="aiProcessing" class="hidden">
+                <span class="dots">...</span>
+                <span class="message">AI is optimizing your trade</span>
+            </div>
+        </section>
+
+        <section id="orderHistory">
+            <h2>Order History</h2>
+            <div id="orderHistoryContent"></div>
+        </section>
+
+        <footer>
+            <div id="autoTradeToggle" class="toggle">
+                <span>ABATEV Auto Trade</span>
+                <label class="switch">
+                    <input type="checkbox" id="autoTradeCheck">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <p>© 2024 Ultimate Smart Panel</p>
+        </footer>
     </div>
 
-    <script>
-        // Mock data to simulate the real-time data from APIs
-        const ironbeamData = {
-            account_id: "12345",
-            balance: "$10,000"
-        };
-
-        const oandaData = {
-            account_id: "54321",
-            balance: "$15,000"
-        };
-
-        const alpacaData = {
-            account_id: "67890",
-            cash: "$5,000",
-            portfolio_value: "$50,000"
-        };
-
-        // Simulate loading data for Ironbeam
-        function loadIronbeamData() {
-            const table = document.getElementById('ironbeam-balance');
-            const loading = document.querySelector('#ironbeam .loading');
-            loading.style.display = 'none';
-            table.style.display = 'table';
-
-            const tbody = table.querySelector('tbody');
-            tbody.innerHTML = `
-                <tr>
-                    <td>${ironbeamData.account_id}</td>
-                    <td>${ironbeamData.balance}</td>
-                </tr>
-            `;
-        }
-
-        // Simulate loading data for Oanda
-        function loadOandaData() {
-            const table = document.getElementById('oanda-account');
-            const loading = document.querySelector('#oanda .loading');
-            loading.style.display = 'none';
-            table.style.display = 'table';
-
-            const tbody = table.querySelector('tbody');
-            tbody.innerHTML = `
-                <tr>
-                    <td>${oandaData.account_id}</td>
-                    <td>${oandaData.balance}</td>
-                </tr>
-            `;
-        }
-
-        // Simulate loading data for Alpaca
-        function loadAlpacaData() {
-            const table = document.getElementById('alpaca-account');
-            const loading = document.querySelector('#alpaca .loading');
-            loading.style.display = 'none';
-            table.style.display = 'table';
-
-            const tbody = table.querySelector('tbody');
-            tbody.innerHTML = `
-                <tr>
-                    <td>${alpacaData.account_id}</td>
-                    <td>${alpacaData.cash}</td>
-                    <td>${alpacaData.portfolio_value}</td>
-                </tr>
-            `;
-        }
-
-        // Simulate data loading
-        setTimeout(loadIronbeamData, 1000);  // Simulate 1-second delay
-        setTimeout(loadOandaData, 1500);     // Simulate 1.5-second delay
-        setTimeout(loadAlpacaData, 2000);    // Simulate 2-second delay
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
