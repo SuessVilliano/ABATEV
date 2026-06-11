@@ -5,28 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Smart Panel</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div id="smartPanel" class="panel">
         <header>
             <h1>Ultimate Smart Panel</h1>
-            <div id="connectionStatus">Disconnected</div>
-            <select id="brokerSelect">
+            <div id="connectionStatus" class="status-disconnected" role="status">Disconnected</div>
+            <select id="brokerSelect" aria-label="Broker">
                 <option value="ironbeam">IronBeam</option>
                 <option value="oanda">Oanda</option>
                 <option value="alpaca">Alpaca</option>
             </select>
             <button id="connectBtn">Connect</button>
             <button id="toggleBrokerInfo">Toggle Broker Info</button>
-            <button id="themeToggle" class="theme-toggle">🌙</button>
+            <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
         </header>
+
+        <div id="brokerInfo" class="broker-info hidden"></div>
 
         <section id="marketData">
             <h2>Aggregated Market Data</h2>
-            <div class="tab-container">
-                <button class="tab active" data-market="futures">Futures</button>
-                <button class="tab" data-market="forex">Forex</button>
-                <button class="tab" data-market="crypto">Crypto</button>
+            <div class="tab-container" role="tablist">
+                <button class="tab active" data-market="futures" role="tab">Futures</button>
+                <button class="tab" data-market="forex" role="tab">Forex</button>
+                <button class="tab" data-market="crypto" role="tab">Crypto</button>
             </div>
             <div id="marketContent"></div>
         </section>
@@ -34,23 +37,23 @@
         <section id="smartTradeManager">
             <h2>Smart Trade Manager</h2>
             <div class="trade-inputs">
-                <input type="text" id="symbol" placeholder="Symbol" list="symbolList">
+                <input type="text" id="symbol" placeholder="Symbol" list="symbolList" aria-label="Symbol">
                 <datalist id="symbolList"></datalist>
-                <select id="orderType">
+                <select id="orderType" aria-label="Order type">
                     <option value="market">Market</option>
                     <option value="limit">Limit</option>
                     <option value="stop">Stop</option>
                 </select>
-                <select id="direction">
+                <select id="direction" aria-label="Direction">
                     <option value="buy">Buy</option>
                     <option value="sell">Sell</option>
                 </select>
-                <input type="number" id="amount" placeholder="Amount">
-                <input type="number" id="entryPrice" placeholder="Entry Price">
-                <input type="number" id="takeProfit" placeholder="Take Profit">
-                <input type="number" id="stopLoss" placeholder="Stop Loss">
-                <input type="number" id="riskReward" placeholder="Risk:Reward">
-                <input type="number" id="riskPercentage" placeholder="Risk %">
+                <input type="number" id="amount" placeholder="Amount" min="0" step="any" aria-label="Amount">
+                <input type="number" id="entryPrice" placeholder="Entry Price" min="0" step="any" aria-label="Entry price">
+                <input type="number" id="takeProfit" placeholder="Take Profit" min="0" step="any" aria-label="Take profit">
+                <input type="number" id="stopLoss" placeholder="Stop Loss" min="0" step="any" aria-label="Stop loss">
+                <input type="number" id="riskReward" placeholder="Risk:Reward" min="0" step="any" aria-label="Risk to reward ratio">
+                <input type="number" id="riskPercentage" placeholder="Risk %" min="0" max="100" step="any" aria-label="Risk percentage">
             </div>
             <div class="smart-keys">
                 <button class="smart-key" data-action="buy">Buy</button>
@@ -70,26 +73,41 @@
                 <button class="smart-key" data-action="instant">Instant Trade</button>
                 <button id="smartSettings" class="smart-key double-width">Smart Settings</button>
             </div>
+            <div id="smartSettingsPanel" class="settings-panel hidden">
+                <h3>Smart Settings</h3>
+                <label>Account Size ($)
+                    <input type="number" id="accountSize" min="0" step="any">
+                </label>
+                <label>Default Risk %
+                    <input type="number" id="defaultRisk" min="0" max="100" step="any">
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="confirmTrades"> Confirm before placing trades
+                </label>
+                <button id="saveSettings" class="primary-btn">Save Settings</button>
+            </div>
             <button id="placeTrade" class="primary-btn">Place Trade</button>
         </section>
 
         <button id="aiTradingToggle" class="ai-toggle">AI Trading</button>
         <div id="aiTradingPopup" class="hidden">
+            <button id="aiPopupClose" class="popup-close" aria-label="Close AI trading panel">✕</button>
             <h2>AI Trading</h2>
-            <textarea id="textToTrade" placeholder="Enter trading instructions..."></textarea>
-            <button id="executeAiTrade">Execute AI Trade</button>
+            <textarea id="textToTrade" placeholder="e.g. Buy 2 ES at 5450 sl 5440 tp 5470"></textarea>
+            <button id="executeAiTrade" class="primary-btn">Execute AI Trade</button>
         </div>
 
         <section id="orderHistory">
             <h2>Order History</h2>
             <div id="orderHistoryContent"></div>
+            <button id="clearHistory" class="hidden">Clear History</button>
         </section>
 
         <footer>
             <div id="autoTradeToggle" class="toggle">
                 <span>Hybrid AI Auto Trade</span>
                 <label class="switch">
-                    <input type="checkbox" id="autoTradeCheck">
+                    <input type="checkbox" id="autoTradeCheck" aria-label="Hybrid AI auto trade">
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -97,6 +115,6 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <div id="toast" class="toast hidden" role="alert"></div>
 </body>
 </html>

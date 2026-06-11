@@ -1,6 +1,8 @@
 :root {
     --bg-color: #121212;
+    --surface-color: #1e1e1e;
     --text-color: #ffffff;
+    --muted-color: #9e9e9e;
     --primary-color: #6200ee;
     --secondary-color: #03dac6;
     --button-color: #bb86fc;
@@ -11,14 +13,17 @@
 
 body {
     font-family: 'Roboto', sans-serif;
+    margin: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.light-theme {
     --bg-color: #f5f5f5;
+    --surface-color: #ffffff;
     --text-color: #121212;
+    --muted-color: #616161;
     --primary-color: #3700b3;
     --secondary-color: #018786;
     --button-color: #6200ee;
@@ -29,15 +34,17 @@ body.light-theme {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
-    background-color: var(--bg-color);
+    background-color: var(--surface-color);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
@@ -46,28 +53,130 @@ h1, h2 {
     text-shadow: var(--neon-glow);
 }
 
-button, select, input {
+button, select {
     background-color: var(--button-color);
-    color: var(--text-color);
+    color: #121212;
     border: none;
     padding: 10px 15px;
     margin: 5px;
     border-radius: 5px;
     cursor: pointer;
+    font: inherit;
 }
 
-.smart-key {
+button:hover {
+    filter: brightness(1.1);
+}
+
+input, textarea {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--muted-color);
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    font: inherit;
+}
+
+input:focus, textarea:focus, select:focus, button:focus-visible {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 1px;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: #ffffff;
     font-weight: bold;
-    text-transform: uppercase;
+    width: 100%;
+    margin: 15px 0 0;
 }
 
-.smart-key[data-action="buy"] { background-color: var(--buy-color); }
-.smart-key[data-action="sell"] { background-color: var(--sell-color); }
+/* Connection status */
+#connectionStatus {
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 15px;
+}
 
+.status-connected {
+    color: var(--buy-color);
+    border: 1px solid var(--buy-color);
+}
+
+.status-disconnected {
+    color: var(--sell-color);
+    border: 1px solid var(--sell-color);
+}
+
+/* Broker info */
+.broker-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    color: var(--muted-color);
+}
+
+.broker-info strong {
+    color: var(--text-color);
+}
+
+/* Market tabs */
+.tab {
+    background-color: transparent;
+    color: var(--muted-color);
+    border-bottom: 2px solid transparent;
+    border-radius: 5px 5px 0 0;
+}
+
+.tab.active {
+    color: var(--secondary-color);
+    border-bottom-color: var(--secondary-color);
+    font-weight: bold;
+}
+
+#marketContent {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.market-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--muted-color);
+    margin: 0;
+}
+
+.market-card:hover {
+    border-color: var(--secondary-color);
+    filter: none;
+}
+
+.market-symbol { font-weight: bold; }
+.market-name { font-size: 0.75em; color: var(--muted-color); }
+.market-price { font-size: 1.1em; }
+.market-card.up .market-price { color: var(--buy-color); }
+.market-card.down .market-price { color: var(--sell-color); }
+
+/* Trade ticket */
 .trade-inputs {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
+}
+
+.trade-inputs input, .trade-inputs select {
+    margin: 0;
+    min-width: 0;
 }
 
 .smart-keys {
@@ -77,26 +186,165 @@ button, select, input {
     margin-top: 20px;
 }
 
+.smart-key {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.smart-key[data-action="buy"] { background-color: var(--buy-color); }
+.smart-key[data-action="sell"] { background-color: var(--sell-color); }
+
+.double-width {
+    grid-column: span 2;
+}
+
+/* Settings panel */
+.settings-panel {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    display: grid;
+    gap: 10px;
+    max-width: 400px;
+}
+
+.settings-panel h3 {
+    margin: 0;
+    color: var(--secondary-color);
+}
+
+.settings-panel label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.9em;
+}
+
+.settings-panel .checkbox-label {
+    flex-direction: row;
+    align-items: center;
+}
+
+.settings-panel input {
+    margin: 0;
+}
+
+/* AI trading */
 #aiTradingToggle {
     position: fixed;
     right: 20px;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    padding: 15px 8px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    z-index: 10;
 }
 
 #aiTradingPopup {
     position: fixed;
-    right: 20px;
+    right: 70px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: var(--bg-color);
+    width: min(320px, 80vw);
+    background-color: var(--surface-color);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 11;
 }
+
+#aiTradingPopup h2 {
+    margin-top: 0;
+}
+
+#textToTrade {
+    width: 100%;
+    min-height: 80px;
+    box-sizing: border-box;
+    margin: 0 0 10px;
+    resize: vertical;
+}
+
+.popup-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    color: var(--text-color);
+    padding: 4px 8px;
+    margin: 0;
+}
+
+/* Order history */
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+}
+
+.order-table th, .order-table td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(158, 158, 158, 0.3);
+}
+
+.order-table th {
+    color: var(--muted-color);
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+
+.side-buy { color: var(--buy-color); font-weight: bold; }
+.side-sell { color: var(--sell-color); font-weight: bold; }
+
+.empty-state {
+    color: var(--muted-color);
+}
+
+#orderHistory {
+    overflow-x: auto;
+}
+
+/* Toast notifications */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    border-radius: 5px;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-left: 4px solid var(--secondary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+}
+
+.toast-success { border-left-color: var(--buy-color); }
+.toast-error { border-left-color: var(--sell-color); }
 
 .hidden {
     display: none;
+}
+
+/* Footer + auto trade switch */
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    color: var(--muted-color);
+}
+
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .switch {
@@ -142,10 +390,4 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(26px);
-}
-
-#marketContent {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
 }
